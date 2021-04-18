@@ -1,0 +1,81 @@
+const mysql = require('mysql')
+const config = require('./config')
+const connection = mysql.createConnection({
+    host: config.database.HOST,
+    port: 3306,
+    user: config.database.USERNAME,
+    password: config.database.PASSWORD,
+    database: config.database.DATABASE
+});
+connection.connect(function (err) {
+    // console.log(12, connection);
+
+    console.log('connection success');
+
+})
+class Mysql {
+    constructor() {
+
+    }
+    add(values, column, table) {
+        if (Array.isArray(column)) column = column.join(',')
+        if (Array.isArray(values)) values = values.join(',')
+        return new Promise(resolve => {
+            connection.query(`insert into ${table} (${column}) values (${values})`, (err, res) => {
+                if (err) {
+                    throw err
+                };
+                resolve(res)
+            });
+        })
+    }
+    delete(condition, table) {
+        if (Array.isArray(condition)) condition = condition.join(',')
+        return new Promise(resolve => {
+            connection.query(`delete from ${table} where ${condition}`), (err, res) => {
+                console.log(res);
+
+                if (err) {
+                    throw err
+                };
+                resolve(res)
+            }
+        })
+    }
+    update(newVal, condition, table) {
+        if (Array.isArray(newVal)) newVal = newVal.join(',')
+        return new Promise(resolve => {
+            connection.query(`update ${table} set ${newVal} where ${condition}`), (err, res) => {
+                if (err) {
+                    throw err
+                };
+                resolve(res)
+            }
+        })
+    }
+    select(column, table) {
+        if (Array.isArray(column)) column = column.join(',')
+        return new Promise(resolve => {
+            connection.query(`select ${column} from ${table}`, (err, res) => {
+                if (err) {
+                    throw err
+                };
+                resolve(res)
+            });
+        })
+    }
+    query() {
+        return new Promise(resolve => {
+            connection.query('select * from admin_info', (error, results) => {
+                if (error) {
+                    throw error
+                };
+                resolve(results)
+
+            });
+        })
+
+    }
+}
+
+module.exports = new Mysql()
