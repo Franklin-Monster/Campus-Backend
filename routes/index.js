@@ -1,14 +1,13 @@
 const router = require('koa-router')()
 const mysql = require('../mysql/index')
 
-router.get('/', async (ctx, next) => {
-    // let data = await mysql.delete(["school_id = 1"], " admin_info")
-    let data = await mysql.update("name = 1", "name='张老师'", "admin_info")
+router.get('/', async ctx => {
+    // let data = await mysql.delete(["admin_id = 6"], " admin_info")
+    // let data = await mysql.insert("5,4,4,4,4", "", "admin_info")
+    // let data = await mysql.select("*", "admin_info")
+    // let data = await mysql.update("name='fr'", "name='1'", "admin_info")
+    let data = await mysql.select("*", "class_group_message")
     ctx.body = data
-})
-
-router.get('/string', async (ctx, next) => {
-    ctx.body = 'koa2 string'
 })
 
 router.get('/json', async (ctx, next) => {
