@@ -44,8 +44,6 @@ class Mysql {
         if (Array.isArray(newVal)) newVal = newVal.join(',')
         return new Promise(resolve => {
             connection.query(`update ${table} set ${newVal} where ${condition}`, (err, res) => {
-                console.log(err);
-                console.log(res);
                 if (err) {
                     throw err
                 };
@@ -53,15 +51,40 @@ class Mysql {
             })
         })
     }
-    select(column, table) {
+    select(column, table, condition = null, limit = null) {
         if (Array.isArray(column)) column = column.join(',')
         return new Promise(resolve => {
-            connection.query(`select ${column} from ${table}`, (err, res) => {
-                if (err) {
-                    throw err
-                };
-                resolve(res)
-            });
+            if (condition && limit) {
+                connection.query(`select ${column} from ${table} where ${condition} ${limit}`, (err, res) => {
+                    if (err) {
+                        throw err
+                    };
+                    resolve(res)
+                });
+            } else if (condition) {
+                connection.query(`select ${column} from ${table} where ${condition}`, (err, res) => {
+                    if (err) {
+                        throw err
+                    };
+                    resolve(res)
+                });
+            } else if (limit) {
+                connection.query(`select ${column} from ${table} ${limit}`, (err, res) => {
+                    if (err) {
+                        throw err
+                    };
+                    resolve(res)
+                });
+            } else {
+                connection.query(`select ${column} from ${table}`, (err, res) => {
+                    if (err) {
+                        throw err
+                    };
+                    resolve(res)
+                });
+            }
+
+
         })
     }
     query() {
