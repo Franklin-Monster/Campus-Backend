@@ -1,27 +1,25 @@
 const mysql = require('mysql')
 const config = require('./config')
+
 const connection = mysql.createConnection({
     host: config.database.HOST,
-    port: 3306,
+    port: config.database.PORT,
     user: config.database.USERNAME,
     password: config.database.PASSWORD,
     database: config.database.DATABASE
-});
-connection.connect(function (err) {
-    console.log('connection success');
+})
 
+connection.connect((err) => {
+    console.log('connection success');
 })
 class Mysql {
-    constructor() {
+    constructor() {}
 
-    }
     insert(values, column, table) {
         if (Array.isArray(column)) column = column.join(',')
         if (Array.isArray(values)) values = values.join(',')
         return new Promise(resolve => {
             connection.query(`insert into ${table} (${column}) values (${values})`, (err, res) => {
-                console.log(err);
-                console.log(res);
                 if (err) {
                     throw err
                 };
@@ -29,6 +27,7 @@ class Mysql {
             });
         })
     }
+
     delete(condition, table) {
         if (Array.isArray(condition)) condition = condition.join(',')
         return new Promise(resolve => {
@@ -51,6 +50,7 @@ class Mysql {
             })
         })
     }
+
     select(column, table, condition = null, limit = null) {
         if (Array.isArray(column)) column = column.join(',')
         return new Promise(resolve => {
@@ -87,13 +87,14 @@ class Mysql {
 
         })
     }
+    
     query() {
         return new Promise(resolve => {
-            connection.query('select * from admin_info', (error, results) => {
-                if (error) {
-                    throw error
+            connection.query('select * from admin_info', (err, res) => {
+                if (err) {
+                    throw err
                 };
-                resolve(results)
+                resolve(res)
 
             });
         })

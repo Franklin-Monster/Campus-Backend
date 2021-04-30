@@ -6,7 +6,7 @@ router.get('/', async ctx => {
     // let data = await mysql.insert("5,4,4,4,4", "", "admin_info")
     // let data = await mysql.select("*", "admin_info")
     // let data = await mysql.update("name='fr'", "name='1'", "admin_info")
-    let data = await mysql.select("*", "class_group_message")
+    const data = await mysql.select("*", "class_group_message")
     ctx.body = data
 })
 

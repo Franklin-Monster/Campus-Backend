@@ -5,13 +5,13 @@ router.prefix('/message')
 
 // 获取好友信息
 router.get('/getfriendmessage', async ctx => {
-    let data = await mysql.select("*", "message_friend_list")
+    const data = await mysql.select("*", "message_friend_list")
     ctx.body = data
 })
 
 // 获取课程群消息
 router.get('/getclassgroupmessage', async ctx => {
-    let data = await mysql.select("*", "message_class_group")
+    const data = await mysql.select("*", "message_class_group")
     ctx.body = data
 })
 

@@ -40,4 +40,16 @@ router.get('/getfriendpicture', async ctx => {
     ctx.body = data
 })
 
+// 获取 我的课程 课程列表
+router.get('/getmycourselist', async ctx => {
+    const data = await mysql.select(['name', 'teacher'], "card_course_list")
+    ctx.body = data
+})
+
+// 获取 我的课程 课程详情
+router.get('/getmycoursedetail', async ctx => {
+    const data = await mysql.select('*', "card_course_detail")
+    ctx.body = data
+})
+
 module.exports = router
