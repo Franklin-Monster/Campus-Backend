@@ -52,4 +52,9 @@ router.get('/getmycoursedetail', async ctx => {
     ctx.body = data
 })
 
+// 获取 我的课程 任务列表
+router.get('/getmycoursetasklist', async ctx => {
+    const data = await mysql.select('*', "card_course_task_list")
+    ctx.body = data
+})
 module.exports = router
